@@ -25,13 +25,36 @@ It wrote the code, ran away, and now the game is unplayable.
 
 ## 📝 Document Your Experience
 
-- [ ] Describe the game's purpose.
-- [ ] Detail which bugs you found.
-- [ ] Explain what fixes you applied.
+- **Game purpose:** A simple number-guessing game built with Streamlit where the player guesses a secret integer in a difficulty-dependent range. The UI shows hints (higher/lower), tracks attempts, and scores the player based on how quickly they win.
+- **Bugs found:** Hints were sometimes reversed (telling the player to go higher when their guess was already higher than the secret). The game state could be reset unexpectedly across interactions and the core guess-checking logic was split between files, making it hard to test.
+- **Fixes applied:** Centralized game logic into `logic_utils.py`, fixed the `check_guess` comparison so hints match the secret, added and ran unit tests for `get_range_for_difficulty`, `parse_guess`, `check_guess`, and `update_score`, and annotated the code with short collaboration comments documenting agent–user pairing.
 
-## 📸 Demo
 
-- [ ] [Insert a screenshot of your fixed, winning game here]
+## Demo Walkthrough
+
+1. Start the app on `Normal` difficulty (range 1–100). Open "Developer Debug Info" and note the secret is 55.
+2. User enters a guess of `40` and clicks Submit.
+   - Game returns: "Too Low"
+   - Score updates: 0 -> -5 (wrong guess penalty)
+3. User enters a guess of `70` and clicks Submit.
+   - Game returns: "Too High"
+   - Score updates: -5 -> -10
+4. User enters a guess of `55` and clicks Submit.
+   - Game returns: "🎉 Correct!" and shows final score
+   - Score updates: -10 -> 70 (win points: 100 - 10*(attempt_number-1) = 80 added)
+5. Game state changes to `won`; further submits are disabled until New Game is pressed.
+
+This textual walkthrough shows the end-to-end behavior (hints, scoring, attempts, and final state) without needing a screenshot.
+
+## Test Output (Challenge 1: Advanced Edge-Case Testing)
+
+The pytest run after the fixes produced:
+
+```
+.........                                                                [100%]
+9 passed in 0.00s
+```
+
 
 ## 🚀 Stretch Features
 
