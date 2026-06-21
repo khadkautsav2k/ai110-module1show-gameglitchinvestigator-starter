@@ -1,3 +1,4 @@
+#FIX: Existing unit tests for `check_guess` were validated during agent-user pairing.
 from logic_utils import check_guess
 
 def test_winning_guess():
